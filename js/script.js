@@ -6,8 +6,8 @@ $(document).ready(function(){
 		template: `<header>
 				   		<div class="logo" @click="chanchRouting('shop')">{{name}}</div> 
 				   		<div class="nav">
-				   			<a href="#" @click="chanchRouting('shop')">Shop</a>
-				   			<a href="#" @click="chanchRouting('cart')">Cart</a>
+				   			<a href="" @click.prevent ="chanchRouting('shop')">Shop</a>
+				   			<a href="" @click.prevent ="chanchRouting('cart')">Cart</a>
 						</div>
 				   		<div class="cart" @click="chanchRouting('cart')">
 				   			<div>
@@ -48,7 +48,7 @@ $(document).ready(function(){
 					  			<span class="old-price">{{product.oldPrice}} $</span>
 					  			<span class="new-price">{{product.newPrice}} $</span>
 					  		</p>
-					  		<button @click="addToCart(product)">В корзину</button>	
+					  		<button @click="addToCart(product)">ADD TO CART</button>	
 					  </div>
 			      </div>`,
 		data: function(){
@@ -171,6 +171,7 @@ var Vcart = {
 					this.products.splice(0,this.products.length);
                     localStorage.setItem('products', JSON.stringify(this.products));
                     this.priceAll = 0;
+                    localStorage.setItem('price', JSON.stringify(this.priceAll));
                     this.chancheCount();
                     this.isProduct = this.products.length>0 ? true : false;
 				},
@@ -187,7 +188,6 @@ var Vcart = {
                     for(let i = 0 ; i<this.products.length; i++){
                         count += +this.products[i].count;
                     }
-
                     localStorage.setItem('products', JSON.stringify(this.products));
                     localStorage.setItem('count', JSON.stringify(count));
 					this.$emit('newcount', count);
@@ -220,6 +220,13 @@ var Vcart = {
 	},
    methods: {
   		clickAdd: function(product){
+            var countNow = JSON.parse(localStorage.getItem('count'));
+            var priceNow = JSON.parse(localStorage.getItem('price'));
+            var products = JSON.parse(localStorage.getItem('products'));
+            this.count = countNow ? countNow : 0;
+            this.price = priceNow ? priceNow: 0;
+            this.cartArray = products ? products: [];
+			
   			this.count += 1;
             localStorage.setItem('count', JSON.stringify(this.count));
             let attached = false;
@@ -236,8 +243,8 @@ var Vcart = {
   			}
 		    product.count = 1;
 			this.cartArray.push(product);
-			this.endPrice();
             localStorage.setItem('products', JSON.stringify(this.cartArray));
+            this.endPrice();
   		},
   		endPrice: function(){
   			this.price = 0;

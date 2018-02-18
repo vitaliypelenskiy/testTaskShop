@@ -74,6 +74,9 @@ header .price, header .count{
 	cursor: pointer;
 	outline: none;
 }
+.main-content .product button:hover{
+	background-color: crimson;
+}
 .cart-wrapper{
 	padding: 0 10%;
 	width: 100%;
@@ -148,6 +151,9 @@ header .price, header .count{
 	padding-top: 7px;
 }
 
+.cbalink{
+	display: none!important;
+}
 
 @media (min-width: 451px) and (max-width: 768px ) {
 	.main-content .product {
